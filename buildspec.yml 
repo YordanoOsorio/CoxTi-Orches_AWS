@@ -1,15 +1,15 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Transform: AWS::Serverless-2016-10-31
-
-Resources:
+version: 0.2
+phases:
   
-  ValidationStateMachine:
-    Type: AWS::Serverless::StateMachine
-    Properties:
-      Type: EXPRESS
-      DefinitionUri: statemachine/validator.asl.json
-      DefinitionSubstitutions:
-        ValidateOwnerFunctionArn: !GetAtt ValidateOwnerFunction.Arn
-        ValidatePropertyFunctionArn: !GetAtt ValidatePropertyFunction.Arn
-        ValidationSuccesfullFunctionArn: !GetAtt ValidationSuccesfullFunction.Arn
-        ValidationNotSuccesfullFunctionArn: !GetAtt ValidationNotSuccesfullFunction.Arn
+  build:
+    commands:
+      - echo "Zipping deployment package..."
+      - cd lib
+      - zip -r9 ../deployment_package.zip .
+      - cd ..
+      - zip -g deployment_package.zip stepFunction.json
+  post_build:
+    commands:
+      - echo "Updating lambda Function..."
+      - update-state-machine --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:Prueba1 --zip-file fileb://deployment_package.zip
+      - echo "DONE!!"
