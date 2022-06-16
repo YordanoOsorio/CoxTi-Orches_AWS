@@ -1,0 +1,16 @@
+version: 0.2
+run-as: root
+phases:
+  build:
+    commands:
+      - echo Running build
+      - echo Started on `date`
+      - echo Updating Api 
+      - aws stepfunctions update-state-machine --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:Prueba1 --definition './sfn.json'
+      - echo Done on `date`
+  post_build:
+    commands:
+      - echo Running post_build
+      - echo Done on `date`
+      - echo Deploy finished
+
