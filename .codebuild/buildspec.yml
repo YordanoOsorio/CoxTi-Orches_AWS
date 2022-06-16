@@ -17,6 +17,8 @@ phases:
     commands:
       - echo "Updating lambda Function..."
       - update-state-machine \
-        --definition file://stepFunction.json \
+        --zip-file fileb://deployment_package.zip
         --role-arn arn:aws:iam::992200940678:role/service-role/StepFunctions-Prueba1-role-ce5c060a \
         --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:Prueba1
+
+
