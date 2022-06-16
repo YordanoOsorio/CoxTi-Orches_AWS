@@ -1,16 +1,16 @@
 version: 0.2
 run-as: root
 phases:
+  
   build:
     commands:
-      - echo Running build
-      - echo Started on `date`
-      - echo Updating Api 
-      - aws stepfunctions update-state-machine --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:Prueba1 --definition 'file://sfn.json' --role-arn arn:aws:iam::992200940678:role/service-role/StepFunctions-Prueba1-role-ce5c060a
-      - echo Done on `date`
+      - echo "Zipping deployment package..."
+      - cd lib
+      - zip -r9 ../deployment_package.zip .
+      - cd ..
+      - zip -g deployment_package.zip stepFunction.json
   post_build:
     commands:
-      - echo Running post_build
-      - echo Done on `date`
-      - echo Deploy finished
-
+      - echo "Updating lambda Function..."
+      - aws stepfunctions update-state-machine --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:Prueba1 --zip-file fileb://deployment_package.zip
+      - echo "DONE!!"
