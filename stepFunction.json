@@ -30,7 +30,7 @@
     },
     "No": {
       "Type": "Fail",
-      "Cause": "No se continuo1"
+      "Cause": "No se continuo12"
     },
     "Wait 3 sec": {
       "Comment": "A Wait state delays the state machine from continuing for a specified time.",
