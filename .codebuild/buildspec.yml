@@ -6,7 +6,7 @@ phases:
       - echo Running build
       - echo Started on `date`
       - echo Updating Api 
-      - aws stepfunctions update-state-machine --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:Prueba1 --definition 'file://sfn.json'
+      - aws stepfunctions update-state-machine --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:Prueba1 --definition 'file://sfn.json' -role-arn arn:aws:iam::992200940678:role/service-role/StepFunctions-Prueba1-role-ce5c060a
       - echo Done on `date`
   post_build:
     commands:
