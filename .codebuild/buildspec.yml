@@ -16,5 +16,5 @@ phases:
   post_build:
     commands:
       - echo "Updating lambda Function..."
-      - aws stepfunctions update-state-machine --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:Prueba1 --zip-file fileb://deployment_package.zip
+      - aws stepfunctions update-state-machine --state-machine-arn 'arn:aws:states:us-east-1:992200940678:stateMachine:Prueba1' --zip-file fileb://deployment_package.zip
       - echo "DONE!!"
