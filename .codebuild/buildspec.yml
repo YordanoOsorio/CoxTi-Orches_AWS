@@ -16,9 +16,7 @@ phases:
   post_build:
     commands:
       - echo "Updating lambda Function..."
-      - aws stepfunctions update-state-machine \
-        --definition stepFunction.json \
-        --role-arn arn:aws:iam::992200940678:role/service-role/StepFunctions-HelloWorld-role-00108854 \
-        --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:HelloWorld
+      - aws stepfunctions update-state-machine --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:HelloWorld --definition 'file://stepFunction.json' --role-arn arn:aws:iam::992200940678:role/service-role/StepFunctions-HelloWorld-role-00108854
+
 
 
