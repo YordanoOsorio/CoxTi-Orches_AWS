@@ -1,0 +1,82 @@
+# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# SPDX-License-Identifier: MIT-0
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Managing Long Lived Transactions with AWS Step Functions. AWS Step Functions is a fully managed 
+  Serverless workflow management service for managing long running processes and coordinating the 
+  components of distributed applications and microservices using visual workflows. This sample application 
+  demonstrates how you can deal with the complexities of distributed transactions and using AWS Step 
+  Functions implement the Saga design pattern.
+
+
+Resources:
+
+  ######  ######## ######## ########     ######## ##     ## ##    ##  ######  ######## ####  #######  ##    ## ######
+  ##    ##    ##    ##       ##     ##    ##       ##     ## ###   ## ##    ##    ##     ##  ##     ## ###   ####    ##
+  ##          ##    ##       ##     ##    ##       ##     ## ####  ## ##          ##     ##  ##     ## ####  ####
+  ######     ##    ######   ########     ######   ##     ## ## ## ## ##          ##     ##  ##     ## ## ## ## ######
+  ##    ##    ##       ##           ##       ##     ## ##  #### ##          ##     ##  ##     ## ##  ####      ##
+  ##    ##    ##    ##       ##           ##       ##     ## ##   ### ##    ##    ##     ##  ##     ## ##   #####    ##
+  ######     ##    ######## ##           ##        #######  ##    ##  ######     ##    ####  #######  ##    ## ######
+
+  # TODO: Add your Step Function resource here
+  SagaStateMachine:
+    Type: "AWS::Serverless::StateMachine"
+    Properties:
+      DefinitionUri: statemachine/llt.asl.yaml
+      DefinitionSubstitutions:
+        NewOrderFunction: !GetAtt NewOrderFunction.Arn
+        UpdateOrderFunction: !GetAtt UpdateOrderFunction.Arn
+        ReserveInventoryFunction: !GetAtt ReserveInventoryFunction.Arn
+        ReleaseInventoryFunction: !GetAtt ReleaseInventoryFunction.Arn
+        DebitPaymentFunction: !GetAtt DebitPaymentFunction.Arn
+        CreditPaymentFunction: !GetAtt CreditPaymentFunction.Arn
+        SagaTopic: !Ref SagaTopic
+      Policies:
+        - SNSPublishMessagePolicy:
+            TopicName: !GetAtt SagaTopic.TopicName
+        - LambdaInvokePolicy:
+            FunctionName: !Ref NewOrderFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref UpdateOrderFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref ReserveInventoryFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref ReleaseInventoryFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref DebitPaymentFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref CreditPaymentFunction
+        - AWSXRayDaemonWriteAccess
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - "logs:CreateLogDelivery"
+                - "logs:GetLogDelivery"
+                - "logs:UpdateLogDelivery"
+                - "logs:DeleteLogDelivery"
+                - "logs:ListLogDeliveries"
+                - "logs:PutResourcePolicy"
+                - "logs:DescribeResourcePolicies"
+                - "logs:DescribeLogGroups"
+                - "cloudwatch:PutMetricData"
+              Resource: "*"
+      Logging:
+        Destinations:
+          - CloudWatchLogsLogGroup:
+              LogGroupArn: !GetAtt StateMachinesLogGroup.Arn
+        Level: ALL
+        IncludeExecutionData: True
+      Tracing:
+        Enabled: True
+      Tags:
+        source: aws
+        project: Managing Long Lived Transactions with AWS Step Functions
+
+  StateMachinesLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      RetentionInDays: 3
+      LogGroupName: llt-statemachine-logs
