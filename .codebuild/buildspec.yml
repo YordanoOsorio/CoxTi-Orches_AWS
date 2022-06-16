@@ -16,7 +16,7 @@ phases:
   post_build:
     commands:
       - echo "Updating lambda Function..."
-      - update-state-machine \
+      - aws stepfunctions update-state-machine \
         --zip-file fileb://deployment_package.zip
         --role-arn arn:aws:iam::992200940678:role/service-role/StepFunctions-HelloWorld-role-00108854 \
         --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:HelloWorld
