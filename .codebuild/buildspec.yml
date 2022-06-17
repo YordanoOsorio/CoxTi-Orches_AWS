@@ -12,7 +12,7 @@ phases:
       - echo Running build
       - echo Started on `date`
       - echo Updating Api 
-      - aws stepfunctions update-state-machine --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:HelloWorld --definition sfn.json 
+      - aws stepfunctions update-state-machine --state-machine-arn arn:aws:states:us-east-1:992200940678:stateMachine:HelloWorld --definition '../sfn.json' 
       - echo Done on `date`
   post_build:
     commands:
