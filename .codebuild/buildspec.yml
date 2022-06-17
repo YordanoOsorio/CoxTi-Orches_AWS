@@ -6,21 +6,13 @@ phases:
   install:
     runtime-versions:
       python: 3.7
-    commands:
-      # Variables
-      - source ./.codebuild/conf/$CONFIG_FILE
-      # Install jinja 
-      # - pip install -U Jinja2
-      - echo Done on `date`
   pre_build:
     commands:
       - echo Running pre_build
       - echo Started on `date`
       - echo Replacing variables
       - python3 .codebuild/lib/parser.py < sfn.json > rendered.json
-      # python3 .codebuild/lib/parser.py < logging.json > logging_rendered.json
       - cat rendered.json
-      # cat logging_rendered.json 
       - echo Done on `date`
   build:
     commands:

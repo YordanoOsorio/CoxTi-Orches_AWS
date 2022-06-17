@@ -12,9 +12,7 @@ phases:
       - echo Started on `date`
       - echo Replacing variables
       - python3 .codebuild/lib/parser.py < sfn.json > rendered.json
-      # python3 .codebuild/lib/parser.py < logging.json > logging_rendered.json
       - cat rendered.json
-      # cat logging_rendered.json 
       - echo Done on `date`
   build:
     commands:
