@@ -1,0 +1,11 @@
+{
+  "level": "{{ LOGGING_CONFIGURATION_LEVEL }}",
+  "includeExecutionData": {{ LOGGING_CONFIGURATION_INCLUDE_EXECUTION_DATA }},
+  "destinations": [
+    {
+      "cloudWatchLogsLogGroup": {
+        "logGroupArn": "{{ LOGGING_CONFIGURATION_LOG_GROUP_ARN }}"
+      }
+    }
+  ]
+}
