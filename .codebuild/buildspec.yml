@@ -6,14 +6,7 @@ phases:
   install:
     runtime-versions:
       python: 3.7
-  pre_build:
-    commands:
-      - echo Running pre_build
-      - echo Started on `date`
-      - echo Replacing variables
-      - python3 .codebuild/lib/parser.py < sfn.json > rendered.json
-      - cat rendered.json
-      - echo Done on `date`
+
   build:
     commands:
       - echo Running build

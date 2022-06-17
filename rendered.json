@@ -1,0 +1,28 @@
+{
+  "Comment": "State Machine of Payments to timmer",
+  "StartAt": "Wait",
+  "States": {
+    "Wait": {
+      "Type": "Wait",
+      "Seconds": 600,
+      "Next": "API Gateway Request"
+    },
+    "API Gateway Request": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::apigateway:invoke",
+      "Parameters": {
+        "ApiEndpoint": "{{ API_PAYMENTS_URL }}",
+        "Method": "POST",
+        "Stage": "{{ API_STAGE }}",
+        "Path": "/serviciosTransversales/onlinePayment/transaction/timeout",
+        "RequestBody": {
+          "paymentReference.$": "$.paymentReference"
+        }
+      },
+      "Next": "Success"
+    },
+    "Success": {
+      "Type": "Succeed"
+    }
+  }
+}
