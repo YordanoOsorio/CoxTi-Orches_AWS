@@ -8,7 +8,7 @@ phases:
       python: 3.7
     commands:
       # Variables
-      - source ./.codebuild/conf/$CONFIG_FILE
+      # source ./.codebuild/conf/$CONFIG_FILE
       # Install jinja 
       # - pip install -U Jinja2
       - echo Done on `date`
