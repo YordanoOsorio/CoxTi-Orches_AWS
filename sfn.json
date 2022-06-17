@@ -1,11 +1,11 @@
 {
-  "Comment": "A Hello World example demonstrating various state types of the Amazon States Language",
+  "Comment": "Prueba de actualziacion Step Function",
   "StartAt": "Pass",
   "States": {
     "Pass": {
       "Comment": "A Pass state passes its input to its output, without performing work. Pass states are useful when constructing and debugging state machines.",
       "Type": "Pass",
-      "Next": "felciitaciones coquitos y Donal?"
+      "Next": "Hello World example?"
     },
     "Hello World example?": {
       "Comment": "A Choice state adds branching logic to a state machine. Choice rules can implement 16 different comparison operators, and can be combined using And, Or, and Not",
