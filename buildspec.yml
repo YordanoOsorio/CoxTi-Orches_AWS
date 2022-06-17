@@ -6,12 +6,6 @@ phases:
   install:
     runtime-versions:
       python: 3.7
-    commands:
-      # Variables
-      # source ./.codebuild/conf/$CONFIG_FILE
-      # Install jinja 
-      # - pip install -U Jinja2
-      - echo Done on `date`
   pre_build:
     commands:
       - echo Running pre_build
